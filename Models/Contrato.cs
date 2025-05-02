@@ -11,9 +11,9 @@ namespace SistemaAluguel.Models
         public int ImovelId{get; set;}
         public int InquilinoId{get; set;}
         public DateTime DataInicio{get; set;}
-        public DateTime DataTermino{get; set;}
-        public decimal ValorAcordado{get; set;}
-        public bool StatusContrato{get; set;}
+        public DateTime DataFim{get; set;}
+        public decimal ValorMensal{get; set;}
+        public bool Ativo{get; set;}
 
 
     }
