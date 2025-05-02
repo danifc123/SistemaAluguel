@@ -81,11 +81,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguel\\SistemaAluguel.csproj",
+      "projectUniqueName": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguel.csproj",
       "projectName": "SistemaAluguel",
-      "projectPath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguel\\SistemaAluguel.csproj",
+      "projectPath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguel.csproj",
       "packagesPath": "C:\\Users\\danie\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguel\\obj\\",
+      "outputPath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -158,7 +158,7 @@
       "code": "NU1900",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Ocorreu um erro ao obter os dados de vulnerabilidade do pacote: Não é possível carregar o índice de serviço para a origem https://pkgs.dev.azure.com/virtuetec/Library/_packaging/Library/nuget/v3/index.json."
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://pkgs.dev.azure.com/virtuetec/Library/_packaging/Library/nuget/v3/index.json."
     }
   ]
 }
