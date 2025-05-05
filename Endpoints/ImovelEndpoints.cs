@@ -56,7 +56,7 @@ namespace SistemaAluguel.Endpoints
                 var imovel = await db.Imoveis.FindAsync(id);
                 if (imovel is null)
                     return Results.NotFound($"Imóvel com Id {id} nao Encontrado");
-                else
+                
                     return Results.Ok(imovel);
             });
 
