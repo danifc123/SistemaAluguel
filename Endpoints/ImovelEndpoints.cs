@@ -51,7 +51,7 @@ namespace SistemaAluguel.Endpoints
                 return Results.NoContent();
             });
 
-            app.MapGet("imoveis/{id}", async (AppDbContext db, int id) =>
+            app.MapGet("/imoveis/{id}", async (AppDbContext db, int id) =>
             {
                 var imovel = await db.Imoveis.FindAsync(id);
                 if(imovel is null)
