@@ -22,28 +22,28 @@ namespace SistemaAluguel.Endpoints
             });
 
             app.MapPut("/imoveis", async (AppDbContext db, Imovel imovel) =>
-     {
-         var imovelExistente = await db.Imoveis.FindAsync(imovel.Id);
+            {
+                var imovelExistente = await db.Imoveis.FindAsync(imovel.Id);
 
-         if (imovelExistente is null)
-             return Results.NotFound($"Imóvel com ID {imovel.Id} não encontrado.");
+                if (imovelExistente is null)
+                    return Results.NotFound($"Imóvel com ID {imovel.Id} não encontrado.");
 
-         imovelExistente.Endereco = imovel.Endereco;
-         imovelExistente.Tipo = imovel.Tipo;
-         imovelExistente.ValorAluguel = imovel.ValorAluguel;
-         imovelExistente.Disponivel = imovel.Disponivel;
+                imovelExistente.Endereco = imovel.Endereco;
+                imovelExistente.Tipo = imovel.Tipo;
+                imovelExistente.ValorAluguel = imovel.ValorAluguel;
+                imovelExistente.Disponivel = imovel.Disponivel;
 
-         await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-         return Results.Ok(imovelExistente);
-     });
+                return Results.Ok(imovelExistente);
+            });
 
             app.MapDelete("/imoveis/{id}", async (AppDbContext db, int id) =>
             {
                 var imovel = await db.Imoveis.FindAsync(id);
 
                 if (imovel is null)
-                    return Results.NotFound($"Imóvel com ID {id} não encontrado.");
+                    return Results.NotFound($"Imóvel com Id {id} não encontrado.");
 
                 db.Imoveis.Remove(imovel);
                 await db.SaveChangesAsync();
@@ -54,9 +54,9 @@ namespace SistemaAluguel.Endpoints
             app.MapGet("/imoveis/{id}", async (AppDbContext db, int id) =>
             {
                 var imovel = await db.Imoveis.FindAsync(id);
-                if(imovel is null)
-                    return Results.NotFound($"Imóvel com id {id} nao Encontrado");
-                else 
+                if (imovel is null)
+                    return Results.NotFound($"Imóvel com Id {id} nao Encontrado");
+                else
                     return Results.Ok(imovel);
             });
 
