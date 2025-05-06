@@ -63,10 +63,21 @@ namespace SistemaAluguel.Endpoints
 
             app.MapGet("/imoveis/{id}", async (AppDbContext db, int id) =>
             {
-                var imovel = await db.Imoveis.FindAsync(id);
-                if (imovel is null)
-                    return Results.NotFound($"Imóvel com Id {id} nao Encontrado");
-                
+                var imovel = await db.Imoveis
+                    .Where(i => i.Id == id)
+                    .Select(i => new ImovelDTO
+                    {
+                        Id = i.Id,
+                        Endereco = i.Endereco,
+                        Tipo = i.Tipo,
+                        ValorAluguel = i.ValorAluguel,
+                        Disponivel = i.Disponivel,
+                    })
+                    .FirstOrDefaultAsync();
+
+                    if(imovel is null)
+                        return Results.NotFound($"ID {id} não encontrado");
+
                     return Results.Ok(imovel);
             });
         }

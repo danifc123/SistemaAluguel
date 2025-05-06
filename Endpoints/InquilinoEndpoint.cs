@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaAluguel.Data;
+using SistemaAluguel.DTOs;
 using SistemaAluguel.Models;
 
 namespace SistemaAluguel.Endpoints
@@ -10,8 +11,19 @@ namespace SistemaAluguel.Endpoints
         {
             app.MapGet("/inquilinos", async (AppDbContext db) =>
             {
-                var inquilinos = await db.Inquilinos.ToListAsync();
+                var inquilinos = await db.Inquilinos
+                    .Select(i => new InquilinoDTO
+                    {
+                        Id = i.Id,
+                        Nome = i.Nome,
+                        Email = i.Email,
+                        Telefone = i.Telefone,
+                        CPF = i.CPF,
+
+                    })
+                    .ToListAsync();
                 return Results.Ok(inquilinos);
+
             });
 
             app.MapPost("/inquilinos", async (AppDbContext db, Inquilino inquilino) =>
@@ -52,11 +64,21 @@ namespace SistemaAluguel.Endpoints
 
             app.MapGet("/inquilinos/{id}", async (AppDbContext db, int id) =>
             {
-                var inquilino = await db.Inquilinos.FindAsync(id);
+                var inquilino = await db.Inquilinos
+                .Where(i => i.Id == id )
+                .Select(i => new InquilinoDTO
+                {
+                    Id = i.Id,
+                    Nome = i.Nome,
+                    Email = i.Email,
+                    Telefone = i.Telefone,
+                    CPF = i.CPF
+                })
+                .FirstOrDefaultAsync();
 
-                if (inquilino is null)
-                    return Results.NotFound($"Inquilino com ID {id} não encontrado.");
-
+                if(inquilino is null)
+                    return Results.NotFound($"ID {id} não encontrado");
+                
                 return Results.Ok(inquilino);
             });
         }
