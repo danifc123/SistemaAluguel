@@ -23,5 +23,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapImovelEndpoints();
+app.MapInquilinoEndpoint();
+app.MapContratoEndpoints();
+app.MapPagamentosEndpoint();
 
 app.Run();

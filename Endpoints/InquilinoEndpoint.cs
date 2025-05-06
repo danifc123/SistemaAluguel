@@ -9,23 +9,6 @@ namespace SistemaAluguel.Endpoints
     {
         public static void MapInquilinoEndpoint(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/inquilinos", async (AppDbContext db) =>
-            {
-                var inquilinos = await db.Inquilinos
-                    .Select(i => new InquilinoDTO
-                    {
-                        Id = i.Id,
-                        Nome = i.Nome,
-                        Email = i.Email,
-                        Telefone = i.Telefone,
-                        CPF = i.CPF,
-
-                    })
-                    .ToListAsync();
-                return Results.Ok(inquilinos);
-
-            });
-
             app.MapPost("/inquilinos", async (AppDbContext db, Inquilino inquilino) =>
             {
                 db.Inquilinos.Add(inquilino);
@@ -80,6 +63,46 @@ namespace SistemaAluguel.Endpoints
                     return Results.NotFound($"ID {id} não encontrado");
                 
                 return Results.Ok(inquilino);
+            });
+            app.MapGet("/inquilinos", async(AppDbContext db, string? nome) =>
+            {
+                var query = db.Inquilinos.AsQueryable();
+
+                if (!string.IsNullOrEmpty(nome))
+                {
+                    query = query.Where(i => i.Nome!.ToLower().Contains(nome.ToLower()));
+                }
+                var inquilinos = await query
+                    .Select(i => new InquilinoDTO
+                    {
+                        Id = i.Id,
+                        Nome = i.Nome,
+                        Email = i.Email,
+                        Telefone = i.Telefone,
+                        CPF = i.CPF
+                    })
+                    .ToListAsync();
+
+                return Results.Ok(inquilinos);
+            });
+            app.MapGet("/inquilinos/ativos", async (AppDbContext db) => 
+            {
+                var inquilinosAtivos = await db.Contratos
+                    .Where(c => c.Ativo)
+                    .Include(c => c.Inquilino)
+                    .Select(c => new InquilinoDTO
+                    {
+                        Id = c.Inquilino!.Id,
+                        Nome = c.Inquilino.Nome,
+                        Email = c.Inquilino.Email,
+                        Telefone = c.Inquilino.Telefone,
+                        CPF = c.Inquilino.CPF 
+                    })
+                    .GroupBy(i => i.Id)
+                    .Select(g => g.First())
+                    .ToListAsync();
+
+                return Results.Ok(inquilinosAtivos);
             });
         }
     }

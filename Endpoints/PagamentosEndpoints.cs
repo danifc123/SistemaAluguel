@@ -83,7 +83,6 @@ namespace SistemaAluguel.Endpoints
                         return Results.NotFound($"Pagamento com o ID {id} não encontrado");
 
                     return Results.Ok(pagamento);
-
             });
         }
     }
