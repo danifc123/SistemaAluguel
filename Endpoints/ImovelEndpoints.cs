@@ -59,10 +59,6 @@ namespace SistemaAluguel.Endpoints
                 
                     return Results.Ok(imovel);
             });
-
-
         }
-
-
     }
 }
