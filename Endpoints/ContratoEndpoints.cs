@@ -10,25 +10,24 @@ namespace SistemaAluguel.Endpoints
         public static void MapContratoEndpoints(this IEndpointRouteBuilder app)
         {
             app.MapGet("/contratos", async (AppDbContext db) =>
- {
-     var contratos = await db.Contratos
-         .Include(c => c.Inquilino)
-         .Include(c => c.Imovel)
-         .Select(c => new ContratoDTO
-         {
-             Id = c.Id,
-             DataInicio = c.DataInicio,
-             DataFim = c.DataFim,
-             ValorMensal = c.ValorMensal,
-             Ativo = c.Ativo,
-             NomeInquilino = c.Inquilino != null ? c.Inquilino.Nome : "N/A",
-             EnderecoImovel = c.Imovel != null ? c.Imovel.Endereco : "N/A"
+            {
+                var contratos = await db.Contratos
+                   .Include(c => c.Inquilino)
+                   .Include(c => c.Imovel)
+                   .Select(c => new ContratoDTO
+                   {
+                       Id = c.Id,
+                       DataInicio = c.DataInicio,
+                       DataFim = c.DataFim,
+                       ValorMensal = c.ValorMensal,
+                       Ativo = c.Ativo,
+                       NomeInquilino = c.Inquilino != null ? c.Inquilino.Nome : "N/A",
+                       EnderecoImovel = c.Imovel != null ? c.Imovel.Endereco : "N/A"
+                   })
+                   .ToListAsync();
 
-         })
-         .ToListAsync();
-
-     return Results.Ok(contratos);
- });
+                return Results.Ok(contratos);
+            });
 
             app.MapPost("/contratos", async (AppDbContext db, Contrato contrato) =>
             {
@@ -69,28 +68,29 @@ namespace SistemaAluguel.Endpoints
 
                 return Results.NoContent();
             });
+
             app.MapGet("/contratos/{id}", async (AppDbContext db, int id) =>
             {
-             var contrato = await db.Contratos
-                .Include(c => c.Inquilino)
-                .Include(c => c.Imovel)
-                .Where(c => c.Id == id)
-                .Select(c => new ContratoDTO
-                    {
-                        Id = c.Id,
-                        DataInicio = c.DataInicio,
-                        DataFim = c.DataFim,
-                        ValorMensal = c.ValorMensal,
-                        Ativo = c.Ativo,
-                        NomeInquilino = c.Inquilino != null ? c.Inquilino.Nome : "N/A",
-                        EnderecoImovel = c.Imovel != null ? c.Imovel.Endereco : "N/A"
-                    })
-                .FirstOrDefaultAsync();
+                var contrato = await db.Contratos
+                   .Include(c => c.Inquilino)
+                   .Include(c => c.Imovel)
+                   .Where(c => c.Id == id)
+                   .Select(c => new ContratoDTO
+                   {
+                       Id = c.Id,
+                       DataInicio = c.DataInicio,
+                       DataFim = c.DataFim,
+                       ValorMensal = c.ValorMensal,
+                       Ativo = c.Ativo,
+                       NomeInquilino = c.Inquilino != null ? c.Inquilino.Nome : "N/A",
+                       EnderecoImovel = c.Imovel != null ? c.Imovel.Endereco : "N/A"
+                   })
+                   .FirstOrDefaultAsync();
 
-            if (contrato is null)
-                return Results.NotFound($"Contrato com ID {id} não encontrado.");
+                if (contrato is null)
+                    return Results.NotFound($"Contrato com ID {id} não encontrado.");
 
-            return Results.Ok(contrato);
+                return Results.Ok(contrato);
             });
 
         }
