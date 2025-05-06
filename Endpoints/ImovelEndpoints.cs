@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaAluguel.Data;
+using SistemaAluguel.DTOs;
 using SistemaAluguel.Models;
 
 namespace SistemaAluguel.Endpoints
@@ -10,7 +11,16 @@ namespace SistemaAluguel.Endpoints
         {
             app.MapGet("/imoveis", async (AppDbContext db) =>
             {
-                var imoveis = await db.Imoveis.ToListAsync();
+                var imoveis = await db.Imoveis
+                    .Select(i => new ImovelDTO
+                    {
+                        Id = i.Id,
+                        Endereco = i.Endereco,
+                        Tipo = i.Tipo,
+                        ValorAluguel = i.ValorAluguel,
+                        Disponivel = i.Disponivel
+                    })
+                    .ToListAsync();
                 return Results.Ok(imoveis);
             });
 

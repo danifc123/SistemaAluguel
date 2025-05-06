@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using SistemaAluguel.Data;
+using SistemaAluguel.DTOs;
 using SistemaAluguel.Models;
 
 namespace SistemaAluguel.Endpoints
@@ -11,10 +12,20 @@ namespace SistemaAluguel.Endpoints
         {
             app.MapGet("/pagamentos", async (AppDbContext db) =>
             {
-                var pagamento = await db.Pagamentos.ToListAsync();
+                var pagamento = await db.Pagamentos
+                    .Select(p => new PagamentoDTO
+                    {
+                        Id = p.Id,
+                        ContratoId = p.ContratoId,
+                        MesAnoReferencia = p.MesAnoReferencia,
+                        DataVencimento = p.DataVencimento,
+                        DataPagamento = p.DataPagamento,
+                        Valor = p.Valor,
+                        Status = p.StatusPagamento.ToString()
+                    })
+                    .ToListAsync();
                 return Results.Ok(pagamento);
             });
-
             app.MapPost("/pagamentos", async (AppDbContext db, Pagamento pagamento) =>
             {
                 db.Pagamentos.Add(pagamento);
@@ -53,13 +64,26 @@ namespace SistemaAluguel.Endpoints
             });
 
             app.MapGet("/pagamentos/{id}", async (AppDbContext db, int id) =>
-            {
-                var pagamentos = await db.Pagamentos.FindAsync(id);
+            { 
+                var pagamento = await db.Pagamentos
+                    .Where(p => p.Id == id)
+                    .Select(p=> new PagamentoDTO 
+                    {
+                        Id = p.Id,
+                        ContratoId = p.ContratoId,
+                        MesAnoReferencia = p.MesAnoReferencia,
+                        DataVencimento = p.DataVencimento,
+                        DataPagamento = p.DataPagamento,
+                        Valor = p.Valor,
+                        Status = p.StatusPagamento.ToString()
+                    })
+                    .FirstOrDefaultAsync();
 
-                if (pagamentos is null)
-                    return Results.NotFound($"Pagamento com o ID {id} não encontrados");
+                    if (pagamento is null)
+                        return Results.NotFound($"Pagamento com o ID {id} não encontrado");
 
-                return Results.Ok(pagamentos);
+                    return Results.Ok(pagamento);
+
             });
         }
     }
