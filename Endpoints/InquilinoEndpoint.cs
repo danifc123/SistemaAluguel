@@ -14,7 +14,7 @@ namespace SistemaAluguel.Endpoints
                 db.Inquilinos.Add(inquilino);
                 await db.SaveChangesAsync();
                 return Results.Created($"/inquilinos/{inquilino.Id}", inquilino);
-            });
+            }).RequireAuthorization();
 
             app.MapPut("/inquilinos", async (AppDbContext db, Inquilino inquilino) =>
             {
@@ -30,7 +30,7 @@ namespace SistemaAluguel.Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.Ok(inquilinoExistente);
-            });
+            }).RequireAuthorization();
 
             app.MapDelete("/inquilinos/{id}", async (AppDbContext db, int id) =>
             {
@@ -43,7 +43,7 @@ namespace SistemaAluguel.Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.NoContent();
-            });
+            }).RequireAuthorization();
 
             app.MapGet("/inquilinos/{id}", async (AppDbContext db, int id) =>
             {
