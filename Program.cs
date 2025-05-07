@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaAluguel.Data;
 using SistemaAluguel.Endpoints;
+using SistemaAluguel.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,5 +27,6 @@ app.MapImovelEndpoints();
 app.MapInquilinoEndpoint();
 app.MapContratoEndpoints();
 app.MapPagamentosEndpoint();
+builder.Services.AddSingleton<PasswordHasher>();
 
 app.Run();

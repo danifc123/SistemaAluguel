@@ -13,6 +13,6 @@ namespace SistemaAluguel.Data
         public DbSet<Inquilino> Inquilinos { get; set; }
         public DbSet<Contrato> Contratos { get; set; }
         public DbSet<Pagamento> Pagamentos { get; set; }
-
+        public DbSet<Usuario> Usuarios {get; set;}
     }
 }
