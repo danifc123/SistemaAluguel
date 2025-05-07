@@ -34,7 +34,7 @@ namespace SistemaAluguel.Endpoints
                 db.Contratos.Add(contrato);
                 await db.SaveChangesAsync();
                 return Results.Created($"/contratos/{contrato.Id}", contrato);
-            });
+            }).RequireAuthorization();
 
 
             app.MapPut("/contratos", async (AppDbContext db, Contrato contrato) =>
@@ -54,7 +54,7 @@ namespace SistemaAluguel.Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.Ok(contratoExistente);
-            });
+            }).RequireAuthorization();
 
             app.MapDelete("/contratos/{id}", async (AppDbContext db, int id) =>
             {
@@ -67,7 +67,7 @@ namespace SistemaAluguel.Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.NoContent();
-            });
+            }).RequireAuthorization();
 
             app.MapGet("/contratos/{id}", async (AppDbContext db, int id) =>
             {
