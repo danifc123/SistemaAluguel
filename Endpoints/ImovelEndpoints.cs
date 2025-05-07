@@ -21,6 +21,7 @@ namespace SistemaAluguel.Endpoints
                         Disponivel = i.Disponivel
                     })
                     .ToListAsync();
+                    
                 return Results.Ok(imoveis);
             });
 
