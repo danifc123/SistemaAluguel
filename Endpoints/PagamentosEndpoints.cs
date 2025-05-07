@@ -31,7 +31,7 @@ namespace SistemaAluguel.Endpoints
                 db.Pagamentos.Add(pagamento);
                 await db.SaveChangesAsync();
                 return Results.Created($"/pagamentos/{pagamento.Id}", pagamento);
-            });
+            }).RequireAuthorization();
             app.MapPut("/pagamentos", async (AppDbContext db, Pagamento pagamento) =>
             {
                 var pagamentoExistente = await db.Pagamentos.FindAsync(pagamento.Id);
@@ -49,7 +49,7 @@ namespace SistemaAluguel.Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.Ok(pagamentoExistente);
-            });
+            }).RequireAuthorization();
             app.MapDelete("/pagamentos/{id}", async (AppDbContext db, int id) =>
             {
                 var pagamento = await db.Pagamentos.FindAsync(id);
@@ -61,7 +61,7 @@ namespace SistemaAluguel.Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.NoContent();
-            });
+            }).RequireAuthorization();
 
             app.MapGet("/pagamentos/{id}", async (AppDbContext db, int id) =>
             { 
