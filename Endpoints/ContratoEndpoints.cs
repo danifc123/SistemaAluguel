@@ -30,7 +30,12 @@ namespace SistemaAluguel.Endpoints
             });
 
             app.MapPost("/contratos", async (AppDbContext db, Contrato contrato) =>
-            {
+            {   
+                var existeClientId = await db.Contratos.FindAsync(contrato.InquilinoId);
+                if(existeClientId is null)
+                    return Results.NotFound($"Contrato sem vinculo com o inquilino {contrato.Inquilino}");
+
+
                 db.Contratos.Add(contrato);
                 await db.SaveChangesAsync();
                 return Results.Created($"/contratos/{contrato.Id}", contrato);
