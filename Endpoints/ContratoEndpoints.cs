@@ -31,10 +31,11 @@ namespace SistemaAluguel.Endpoints
 
             app.MapPost("/contratos", async (AppDbContext db, Contrato contrato) =>
             {   
-                var existeClientId = await db.Contratos.FindAsync(contrato.InquilinoId);
-                if(existeClientId is null)
-                    return Results.NotFound($"Contrato sem vinculo com o inquilino {contrato.Inquilino}");
-
+                
+                var inquilinoExiste = await db.Inquilinos.AnyAsync(i => i.Id == contrato.InquilinoId);
+                if(!inquilinoExiste)
+                    return Results.NotFound($"Inquilino com o ID {contrato.InquilinoId} não existe.");
+                    
 
                 db.Contratos.Add(contrato);
                 await db.SaveChangesAsync();
