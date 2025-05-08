@@ -11,8 +11,31 @@ namespace SistemaAluguel.Endpoints
         {
             app.MapPost("/inquilinos", async (AppDbContext db, Inquilino inquilino) =>
             {
+                //verifica campo obrigatorios
+                if(string.IsNullOrWhiteSpace(inquilino.Nome) ||
+                string.IsNullOrWhiteSpace(inquilino.CPF) ||
+                string.IsNullOrWhiteSpace(inquilino.Email) ||
+                string.IsNullOrWhiteSpace(inquilino.Telefone))
+                {
+                    return Results.BadRequest("Todos os campos são obrigatorios");
+                }
+
+                //Verifica se o Email está cadastrado
+                var emailExistente = await db.Inquilinos.AnyAsync(i => i.Email == inquilino.Email);
+                if(emailExistente)
+                {
+                    return Results.BadRequest("E-mail já cadastrado. ");
+                }
+
+                var cpfExiste = await db.Inquilinos.AnyAsync(i => i.CPF == inquilino.CPF);
+                if(cpfExiste)
+                {
+                    return Results.BadRequest("CPF já cadastrado");
+                }
+
                 db.Inquilinos.Add(inquilino);
                 await db.SaveChangesAsync();
+
                 return Results.Created($"/inquilinos/{inquilino.Id}", inquilino);
             }).RequireAuthorization();
 
@@ -22,14 +45,43 @@ namespace SistemaAluguel.Endpoints
                 if (inquilinoExistente is null)
                     return Results.NotFound($"Inquilino com ID {inquilino.Id} não encontrado.");
 
-                inquilinoExistente.CPF = inquilino.CPF;
-                inquilinoExistente.Email = inquilino.Email;
+                     // Validação de campos obrigatórios
+                if (string.IsNullOrWhiteSpace(inquilino.Nome) ||
+                    string.IsNullOrWhiteSpace(inquilino.Email) ||
+                    string.IsNullOrWhiteSpace(inquilino.CPF) ||
+                    string.IsNullOrWhiteSpace(inquilino.Telefone))
+                {
+                    return Results.BadRequest("Todos os campos são obrigatórios.");
+                }
+
+                if (!inquilino.Email.Contains("@"))
+                    return Results.BadRequest("Email inválido.");
+
+                if (inquilino.CPF.Length != 11)
+                    return Results.BadRequest("CPF inválido. Deve conter 11 dígitos.");
+
+                // Verifica se o e-mail já está em uso por outro inquilino
+                var emailEmUso = await db.Inquilinos
+                    .AnyAsync(i => i.Email == inquilino.Email && i.Id != inquilino.Id);
+                if (emailEmUso)
+                    return Results.BadRequest("E-mail já está em uso por outro inquilino.");
+
+                // Verifica se o CPF já está em uso por outro inquilino
+                var cpfEmUso = await db.Inquilinos
+                    .AnyAsync(i => i.CPF == inquilino.CPF && i.Id != inquilino.Id);
+                if (cpfEmUso)
+                    return Results.BadRequest("CPF já está em uso por outro inquilino.");
+
+                // Atualização dos dados
                 inquilinoExistente.Nome = inquilino.Nome;
+                inquilinoExistente.Email = inquilino.Email;
+                inquilinoExistente.CPF = inquilino.CPF;
                 inquilinoExistente.Telefone = inquilino.Telefone;
 
                 await db.SaveChangesAsync();
 
                 return Results.Ok(inquilinoExistente);
+
             }).RequireAuthorization();
 
             app.MapDelete("/inquilinos/{id}", async (AppDbContext db, int id) =>
