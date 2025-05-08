@@ -1,4 +1,5 @@
 
+using System.Security;
 using Microsoft.EntityFrameworkCore;
 using SistemaAluguel.Data;
 using SistemaAluguel.DTOs;
@@ -27,11 +28,24 @@ namespace SistemaAluguel.Endpoints
                 return Results.Ok(pagamento);
             });
             app.MapPost("/pagamentos", async (AppDbContext db, Pagamento pagamento) =>
-            {
+            {   
+                //verifica se o pagamento já existe
+                var pagamentoDuplicado = await db.Pagamentos
+                .AnyAsync(p => p.ContratoId == pagamento.ContratoId && p.MesAnoReferencia == pagamento.MesAnoReferencia);
+                if (pagamentoDuplicado)
+                    return Results.BadRequest("Já existe um pagamento para este contrato e mês de referência.");
+
+                //verifica se o contrato existe
+                 var contratoExiste = await db.Contratos.AnyAsync(c => c.Id == pagamento.ContratoId);
+                if(!contratoExiste)
+                    return Results.BadRequest("Contrato não encontrado");
+
                 db.Pagamentos.Add(pagamento);
                 await db.SaveChangesAsync();
                 return Results.Created($"/pagamentos/{pagamento.Id}", pagamento);
+                
             }).RequireAuthorization();
+
             app.MapPut("/pagamentos", async (AppDbContext db, Pagamento pagamento) =>
             {
                 var pagamentoExistente = await db.Pagamentos.FindAsync(pagamento.Id);
