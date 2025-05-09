@@ -35,7 +35,19 @@ namespace SistemaAluguel.Endpoints
                 var inquilinoExiste = await db.Inquilinos.AnyAsync(i => i.Id == contrato.InquilinoId);
                 if(!inquilinoExiste)
                     return Results.NotFound($"Inquilino com o ID {contrato.InquilinoId} não existe.");
-                    
+
+                if(contrato.Ativo){
+                    var contratoAtivo = await db.Contratos.AnyAsync(c => c.InquilinoId == contrato.InquilinoId && c.Ativo);
+                    if(contratoAtivo)
+                        return Results.BadRequest("Já existe contratos ativos para esse inquilino");
+                }
+                
+                if(contrato.InquilinoId <= 0 || contrato.DataInicio == default || contrato.ValorMensal <= 0 )
+                    return Results.BadRequest("Todos os campos obrigatorios devem ser preechidos corretamente");
+
+                if(contrato.DataFim <= contrato.DataInicio)
+                    return Results.BadRequest("A data de fim deve ser posterior a datra de inicio");
+
 
                 db.Contratos.Add(contrato);
                 await db.SaveChangesAsync();

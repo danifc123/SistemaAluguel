@@ -93,12 +93,10 @@ namespace SistemaAluguel.Endpoints
             app.MapDelete("/inquilinos/{id}", async (AppDbContext db, int id) =>
             {
                 var possuiContratoAtivo = await db.Contratos.AnyAsync(c => c.InquilinoId == id && c.Ativo);
-
                 if (possuiContratoAtivo)
                     return Results.BadRequest("Este inquilino possui contratos ativos e não pode ser excluído.");
 
                 var inquilino = await db.Inquilinos.FindAsync(id);
-
                 if (inquilino is null)
                     return Results.NotFound($"Inquilino com ID {id} não encontrado.");
 
