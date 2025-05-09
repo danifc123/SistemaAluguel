@@ -1,0 +1,13 @@
+{
+    "window.commandCenter": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.acceptSuggestionOnTab": true,
+    "editor.suggestOnTriggerCharacters": true,
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": true,
+        "strings": true
+    },
+    "cursor.completion.enabled": false
+} 

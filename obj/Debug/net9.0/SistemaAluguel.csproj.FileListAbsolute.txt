@@ -139,3 +139,5 @@ C:\Users\danie\Desktop\PROJETOS\SistemaAluguel\bin\Debug\net9.0\System.IdentityM
 C:\Users\danie\Desktop\PROJETOS\SistemaAluguel\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\danie\Desktop\PROJETOS\SistemaAluguel\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\danie\Desktop\PROJETOS\SistemaAluguel\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\danie\Desktop\PROJETOS\SistemaAluguel\bin\Debug\net9.0\settings.json
+C:\Users\danie\Desktop\PROJETOS\SistemaAluguel\bin\Debug\net9.0\package-lock.json
