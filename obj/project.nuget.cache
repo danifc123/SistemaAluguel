@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ft8DrxMCWvM=",
+  "dgSpecHash": "KyuwoG8TBOg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguel.csproj",
+  "projectFilePath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguelAPI\\SistemaAluguel.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\danie\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\danie\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

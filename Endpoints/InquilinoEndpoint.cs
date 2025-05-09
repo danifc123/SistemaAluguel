@@ -4,7 +4,7 @@ using SistemaAluguel.Data;
 using SistemaAluguel.DTOs;
 using SistemaAluguel.Models;
 
-namespace SistemaAluguel.Endpoints
+namespace SistemaAluguelAPI.Endpoints
 {
     public static class InquilinoEndpoint
     {

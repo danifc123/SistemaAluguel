@@ -3,7 +3,7 @@ using SistemaAluguel.Data;
 using SistemaAluguel.Models;
 using SistemaAluguel.DTOs;
 
-namespace SistemaAluguel.Endpoints
+namespace SistemaAluguelAPI.Endpoints
 {
     public static class ContratoEndpoints
     {
@@ -30,10 +30,10 @@ namespace SistemaAluguel.Endpoints
             });
 
             app.MapPost("/contratos", async (AppDbContext db, Contrato contrato) =>
-            {   
-                
+            {
+
                 var inquilinoExiste = await db.Inquilinos.AnyAsync(i => i.Id == contrato.InquilinoId);
-                if(!inquilinoExiste)
+                if (!inquilinoExiste)
                     return Results.NotFound($"Inquilino com o ID {contrato.InquilinoId} não existe.");
 
                 // Validação de campos obrigatórios
@@ -43,13 +43,12 @@ namespace SistemaAluguel.Endpoints
                 if (contrato.DataFim <= contrato.DataInicio)
                     return Results.BadRequest("A data de fim deve ser posterior à data de início.");
 
-                if(contrato.Ativo)
+                if (contrato.Ativo)
                 {
                     var contratoAtivo = await db.Contratos.AnyAsync(c => c.InquilinoId == contrato.InquilinoId && c.Ativo);
-                    if(contratoAtivo)
+                    if (contratoAtivo)
                         return Results.BadRequest("Já existe contratos ativos para esse inquilino");
                 }
-                
                 
                 db.Contratos.Add(contrato);
                 await db.SaveChangesAsync();
@@ -59,15 +58,14 @@ namespace SistemaAluguel.Endpoints
 
             app.MapPut("/contratos", async (AppDbContext db, Contrato contrato) =>
             {
-                //Verificando se o contrato existe
-                var contratoExistente = await db.Contratos.FindAsync(contrato.Id);
-                if (contratoExistente is null)
+                // Procuro um contrato para o inquilino
+                var contratoExistente = await db.Contratos.FirstOrDefaultAsync(c => c.Id ==  contrato.Id);
+
+                // Se localizou
+                if (contratoExistente == null)
                     return Results.NotFound($"Contrato com Id {contrato.Id} não encontrado");
 
-                //Validar campos obrigatórios
-                if(contrato.InquilinoId <= 0 || contrato.DataInicio == default || contrato.ValorMensal <= 0)
-                    return Results.BadRequest("Todos os campos obrigatórios devem ser preenchidos corretamente");
-
+                //Validando se existe contratos ativos
                 contratoExistente.Ativo = contrato.Ativo;
                 contratoExistente.DataFim = contrato.DataFim;
                 contratoExistente.DataInicio = contrato.DataInicio;

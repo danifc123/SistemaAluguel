@@ -2,9 +2,8 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SistemaAluguel.Data;
-using SistemaAluguel.Endpoints;
+using SistemaAluguelAPI.Endpoints;
 using SistemaAluguel.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

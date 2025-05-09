@@ -5,7 +5,7 @@ using SistemaAluguel.DTOs;
 using SistemaAluguel.Models;
 using SistemaAluguel.Services;
 
-namespace SistemaAluguel.Endpoints
+namespace SistemaAluguelAPI.Endpoints
 {
     public static class UsuarioEndpoints
     {

@@ -3213,11 +3213,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguel.csproj",
+      "projectUniqueName": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguelAPI\\SistemaAluguel.csproj",
       "projectName": "SistemaAluguel",
-      "projectPath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguel.csproj",
+      "projectPath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguelAPI\\SistemaAluguel.csproj",
       "packagesPath": "C:\\Users\\danie\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\obj\\",
+      "outputPath": "C:\\Users\\danie\\Desktop\\PROJETOS\\SistemaAluguel\\SistemaAluguelAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
